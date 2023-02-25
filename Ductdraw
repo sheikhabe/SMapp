@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Draw Duct Pieces</title>
+	<style>
+		canvas {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+	<h1>Draw Duct Pieces</h1>
+	<p>Select a piece type:</p>
+	<select id="piece-type">
+		<option value="straight">Straight</option>
+		<option value="offset">Offset</option>
+		<option value="transition">Transition</option>
+		<option value="bend">Bend</option>
+	</select>
+	<br><br>
+	<label for="duct-width">Duct Width (mm):</label>
+	<input type="number" id="duct-width" name="duct-width" value="400">
+	<br><br>
+	<label for="duct-height">Duct Height (mm):</label>
+	<input type="number" id="duct-height" name="duct-height" value="400">
+	<br><br>
+	<label for="piece-length">Piece Length (mm):</label>
+	<input type="number" id="piece-length" name="piece-length" value="1000">
+	<br><br>
+	<label for="insulation-type">Insulation Type:</label>
+	<input type="text" id="insulation-type" name="insulation-type">
+	<br><br>
+	<button id="draw-button">Draw Piece</button>
+	<br><br>
+	<canvas id="canvas" width="500" height="500"></canvas>
+
+	<script>
+		const canvas = document.getElementById('canvas');
+		const ctx = canvas.getContext('2d');
+		const width = canvas.width;
+		const height = canvas.height;
+		const drawButton = document.getElementById('draw-button');
+
+		function drawStraightPiece() {
+			const ductWidth = document.getElementById('duct-width').value;
+			const ductHeight = document.getElementById('duct-height').value;
+			const pieceLength = document.getElementById('piece-length').value;
+			const insulationType = document.getElementById('insulation-type').value;
+			const ductWidthMM = ductWidth * 25.4;
+			const ductHeightMM = ductHeight * 25.4;
+			const pieceLengthMM = pieceLength * 25.4;
+
+			// Clear the canvas
+			ctx.clearRect(0, 0, width, height);
+
+			// Set the line width and stroke color
+			ctx.lineWidth = 2;
+			ctx.strokeStyle = 'black';
+
+			// Calculate the position of the rectangle
+			const rectX = (width - ductHeightMM) / 2;
+			const rectY = (height - ductWidthMM) / 2;
+
+			// Draw the rectangle
+			ctx.strokeRect(rectX, rectY, ductHeightMM, ductWidthMM);
+
+			// Add the dimension line
+			ctx.beginPath();
+			ctx.moveTo(rectX, rectY + ductWidthMM + 10);
+			ctx.lineTo(rectX + ductHeightMM, rectY + ductWidthMM + 10);
+			ctx.moveTo(rectX + ductHeightMM / 2, rectY + ductWidthMM + 5);
+			ctx.lineTo(rectX + ductHeightMM / 2, rectY + ductWidthMM + 15);
+			ctx.font = '12
